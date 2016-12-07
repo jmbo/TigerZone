@@ -22,10 +22,11 @@ import java.util.Random;
 public class Tile {
 
 	//Private Variables
-    private String description;
+  private String description;
 	private int animal;
 	private boolean den;
-    private boolean croc;
+  private boolean croc;
+  private boolean goat;
 	private int eT;
 	private int eL;
 	private int eR;
@@ -38,7 +39,7 @@ public class Tile {
 	private boolean oTB = false;
 	private int beenRotated = 0;
 	private int[][] miniZones;
-	
+
 	private Position position;
 
 
@@ -57,7 +58,7 @@ public class Tile {
 
 				miniZones[i][j] = n;
 			}
-		
+
 		}
 	}
 
@@ -71,7 +72,8 @@ public class Tile {
 	{
 		this.animal = animal;
 		this.den = den;
-        this.croc = croc;
+    this.croc = croc;
+    this.goat = false;
 		this.eT = eT;
 		this.eL = eL;
 		this.eR = eR;
@@ -82,76 +84,82 @@ public class Tile {
 		this.cBR = cBR;
 		this.oLR = oLR;
 		this.oTB = oTB;
-        this.description = description;
-        this.beenRotated = beenRotated;
-        this.miniZones = miniZones;
+    this.description = description;
+    this.beenRotated = beenRotated;
+    this.miniZones = miniZones;
 	}
-	
+
 	//Getter
-    
+
     public String getDescription(){
         return description;
     }
-    
+
 	public Position getPosition()
 	{
 		return position;
 	}
-	
+
 	public int getAnimal()
 	{
 		return animal;
 	}
-	
+
 	public boolean getDen()
 	{
 		return den;
 	}
-    
-    public boolean getCroc(){
-        return croc;
-    }
-	
+
+  public boolean getCroc(){
+      return croc;
+  }
+
+  public void setGoat(){
+    this.goat = true;
+  }
+  public boolean getGoat(){
+    return goat;
+  }
 	public int getEdgeT()
 	{
 		return eT;
 	}
-	
+
 	public int getEdgeL()
 	{
 		return eL;
 	}
-	
+
 	public int getEdgeR()
 	{
 		return eR;
 	}
-	
+
 	public int getEdgeB()
 	{
 		return eB;
 	}
-	
+
 	public boolean getCTL()
 	{
 		return cTL;
 	}
-	
+
 	public boolean getCTR()
 	{
 		return cTR;
 	}
-	
+
 	public boolean getCBR()
 	{
 		return cBR;
 	}
-	
+
 	public boolean getCBL()
 	{
 		return cBL;
 	}
-	
+
 	public boolean getOLR()
 	{
 		return oLR;
@@ -172,14 +180,14 @@ public class Tile {
 	{
 		this.position = pos;
 	}
-	
+
 	public String printTile()
 	{
 		return ("cTL is " + this.cTL + ". cTR is " + this.cTR + ". cBL is " + this.cBL + ". cBR is " + this.cBR
 			+ "\neT is " + this.eT + ". eL is " + this.eL + ". eR is " + this.eR + ". eB is " + this.eB
 			+ "\noTB is " + this.oTB + ". oLR is " + this.oLR);
 	}
-	
+
 	// ---- ROTATE COUNTER CLOCKWISE
 	public void rotate()
 	{
@@ -210,7 +218,7 @@ public class Tile {
 			minizones
 
 		*/
-        
+
         boolean bitTemp = cTL;
 		int edgeTemp = eT;
 		cTL = cTR;
@@ -234,7 +242,7 @@ public class Tile {
 	/*
 
 		Function is used for the Feature Areas in the HashBoard.java
-	
+
 		Finds the lakes that are connected in the minizones for
 		each tile
 
@@ -342,7 +350,7 @@ public class Tile {
 	/*
 
 		Function is used for the Feature Areas in the HashBoard.java
-	
+
 		This function solves for the particular case of the minizones
 		where the lakes are not connected, which is the "JLLJ-" and "LJLJ-"
 		tiles
@@ -474,7 +482,7 @@ public class Tile {
 	/*
 
 	Function is used for the Feature Areas in the HashBoard.java
-	
+
 	This function solves for the connected roads/trails in the
 	minizones
 
@@ -561,10 +569,10 @@ public class Tile {
 
 	/*	Prints the values that are in a minizone
 
-	
+
 		This particular function is mostly used for
 		testing and checking to see if the functions for
-		rotation the feature area and connected 
+		rotation the feature area and connected
 		feature areas are working.
 
 	*/

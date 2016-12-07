@@ -30,7 +30,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class HashBoard{
-    HashMap <Position, Tile> gBoard;
+  HashMap <Position, Tile> gBoard;
 	Set <Position> set;
 	ArrayList<JungleArea> Jungle;
 	ArrayList<FeatureArea> Trail;
@@ -90,12 +90,12 @@ public class HashBoard{
 		Lake.add(initialLake);
 
 	}
-    
-    public HashMap<Position, Tile> getMap(){
-    
-        return gBoard;
-    
-    }
+
+  public HashMap<Position, Tile> getMap(){
+
+      return gBoard;
+
+  }
 
 
 	public void printKeys(){
@@ -126,7 +126,7 @@ public class HashBoard{
 				return;
 		}
 		*/
-		
+
 		//System.out.println("TRYING TO PLACE TILE AT " + pos.getXPosition() + " " + pos.getYPosition());
 		if(!checkLegalMove(pos, tile))
         {
@@ -146,48 +146,48 @@ public class HashBoard{
 	/**Checks to see if the position of this tile on the board is a valid move**/
     public boolean checkLegalMove(Position newpos, Tile currentTile)
     {
-        
+
         boolean goodToGo = false;
-        
+
         if (!set.contains(newpos)) return false;		// Make sure the space is open
         //System.out.println("MADE IT PAST OPEN CHECK");
-        
+
         // For each adjacency (to the open newpos) make sure at least one of the following conditions is true
         // 1. exists in open set
         // 2. does not exist in either open or taken set
         // 3. exists in taken set and has edge matching (BUT BC OF ACCESS WE NEED TO ASSURE OTHER TWO FIRST)
-        
+
         Position rPos = new Position(newpos.getXPosition() + 1, newpos.getYPosition());
         Position lPos = new Position(newpos.getXPosition() - 1, newpos.getYPosition());
         Position tPos = new Position(newpos.getXPosition(), newpos.getYPosition() + 1);
         Position bPos = new Position(newpos.getXPosition(), newpos.getYPosition() - 1);
-        
+
         // If the spot exists in the open set or does not exist in either set (2 tiles away)
         if ( (set.contains(tPos)) || ((!set.contains(tPos)) && (!gBoard.containsKey(tPos)))) goodToGo = true;
-        
+
         if (!goodToGo){
             if (gBoard.get(tPos).getEdgeB() != currentTile.getEdgeT()) return false;	// If all three conditions fail
         }
         //System.out.println("TPOS CHECKED OUT");
         // REPEAT FOR OTHER THREE SURROUNDING
-        
+
         goodToGo = false;
         if ( (set.contains(rPos)) || ((!set.contains(rPos)) && (!gBoard.containsKey(rPos)))) goodToGo = true;
-        
+
         if (!goodToGo) {
             if (gBoard.get(rPos).getEdgeL() != currentTile.getEdgeR()) return false;
         }
         //System.out.println("RPOS CHECKED OUT");
         goodToGo = false;
         if ( (set.contains(bPos)) || ((!set.contains(bPos)) && (!gBoard.containsKey(bPos)))) goodToGo = true;
-        
+
         if (!goodToGo) {
             if (gBoard.get(bPos).getEdgeT() != currentTile.getEdgeB()) return false;
         }
         //System.out.println("BPOS CHECKED OUT");
         goodToGo = false;
         if ( (set.contains(lPos)) || ((!set.contains(lPos)) && (!gBoard.containsKey(lPos)))) goodToGo = true;
-        
+
         if (!goodToGo)
             if (gBoard.get(lPos).getEdgeR() != currentTile.getEdgeL()) return false;
         //System.out.println("LPOS CHECKED OUT");
@@ -206,10 +206,10 @@ public class HashBoard{
 		int placement = 0;
 		int owner = 0;
         boolean validSpot = false;
-        
+
         //Initialize a Move struct to send to server
         Move bestMove = new Move();
-        
+
         //For all four rotations
         for (int i = 0; i < 4; i++)
         {
@@ -218,7 +218,7 @@ public class HashBoard{
             {
                 if(checkLegalMove(pos, t))
                 {
-                    
+
                     //addTile(pos, t, tiger);
 					ScorePotential holder = getMoveScore(pos, t);
                     currScore = holder.score; // need to update with scoring method
@@ -245,13 +245,13 @@ public class HashBoard{
                     //return null;
                     //t.rotate();
                 }
-                
+
                 //t.rotate();
             }
-            
+
             t.rotate();
         }
-        
+
         bestMove.t = t.getDescription();
         // case: tile is not valid on current board
 		/**If not valid spot found set best move string to output UNPLACEABLE**/
@@ -264,11 +264,11 @@ public class HashBoard{
         else{
             bestMove.flag = true;
         }
-        
+
         for(int x = 0; x < (rot/90); x++){
             t.rotate();
         }
-        
+
         bestMove.x = best.getXPosition();
         bestMove.y = best.getYPosition();
         bestMove.rotation = t.getRotation();
@@ -2016,6 +2016,10 @@ public class HashBoard{
 				TopArea.uniqueAnimal.add(tile.getAnimal());
 				TopArea.setHasAnimal(true);
 			}
+      if (tile.getGoat()){
+        TopArea.uniqueAnimal.add(4);
+        TopArea.setHasAnimal(true);
+      }
 			if (TopArea.openBoundary.isEmpty()) {
 				TopArea.setCompleted(true);
 			}
@@ -2142,6 +2146,11 @@ public class HashBoard{
 					if (tile.getCroc()) {
 						RightArea.addCrocodile(1);
 					}
+          if (tile.getGoat())
+          {
+            RightArea.uniqueAnimal.add(4);
+            RightArea.setHasAnimal(true);
+          }
 					if (tile.getAnimal()!=0) {
 						RightArea.animal.add(tile.getAnimal());
 						RightArea.setHasAnimal(true);
@@ -2157,6 +2166,11 @@ public class HashBoard{
 					if (tile.getCroc()) {
 						BottomArea.addCrocodile(1);
 					}
+          if (tile.getGoat())
+          {
+            BottomArea.uniqueAnimal.add(4);
+            BottomArea.setHasAnimal(true);
+          }
 					if (tile.getAnimal()!=0) {
 						BottomArea.animal.add(tile.getAnimal());
 						BottomArea.setHasAnimal(true);
@@ -2172,6 +2186,11 @@ public class HashBoard{
 					if (tile.getCroc()) {
 						LeftArea.addCrocodile(1);
 					}
+          if (tile.getGoat())
+          {
+            LeftArea.uniqueAnimal.add(4);
+            LeftArea.setHasAnimal(true);
+          }
 					if (tile.getAnimal()!=0) {
 						LeftArea.animal.add(tile.getAnimal());
 						LeftArea.setHasAnimal(true);
@@ -2186,6 +2205,11 @@ public class HashBoard{
 				if (tile.getCroc()) {
 					TopArea.addCrocodile(1);
 				}
+        if (tile.getGoat())
+        {
+          TopArea.uniqueAnimal.add(4);
+          TopArea.setHasAnimal(true);
+        }
 				if (tile.getAnimal()!=0) {
 					TopArea.animal.add(tile.getAnimal());
 					TopArea.setHasAnimal(true);

@@ -41,6 +41,14 @@ public class FeatureArea {
         hasCrocodile=true;
     }
 
+    public void addGoat()
+    {
+      hasAnimal = true;
+      uniqueAnimal.add(4);
+      animal.add(4);
+    }
+
+
     public FeatureArea copy(){
         FeatureArea copy = new FeatureArea();
         for(Tiger t : tiger){
